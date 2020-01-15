@@ -8,28 +8,28 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div id="dropbox">
-      Click/Drop To Send Your Files
-    </div>
+    <label id="dropbox" for="files">Click/Drop To Send Your Files</label>
+    <input type="file" id="files" name="files" multiple />
 
     <div id="grid">
-      <ul id="fileList">
-        <li>List: your files</li>
-        <li>test.txt</li>
-        <li>test.jpg</li>
-        <li>test.mp4</li>
-      </ul>
+      <div>
+        <h3>Files</h3>
+        <ul id="fileList">
+          <li>🙈 Nothing Here</li>
+        </ul>
+      </div>
 
-      <ul id="progressList">
-        <li>List: sent</li>
-        <li></li>
-      </ul>
+      <div>
+        <h3>Sent</h3>
+        <ul id="progressList"></ul>
+      </div>
     </div>
 
     <div>
       <button>CONNECT</button>
-      <button>DISCONNECT</button>
-      <button>SEND</button>
+      <button disabled>DISCONNECT</button>
+      <button disabled>SEND</button>
+      <h4>Status : Disconnected</h4>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
