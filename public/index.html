@@ -13,23 +13,25 @@
 
     <div id="grid">
       <div>
-        <h3>Files</h3>
-        <ul id="fileList">
-          <li>🙈 Nothing Here</li>
+        <h3>📦 Sent</h3>
+        <ul id="sentList">
+          <li>🙈 Nothing</li>
         </ul>
       </div>
 
       <div>
-        <h3>Sent</h3>
-        <ul id="progressList"></ul>
+        <h3>📦 Received</h3>
+        <ul id="receivedList">
+          <li>🙈 Nothing</li>
+        </ul>
       </div>
     </div>
 
     <div>
-      <button>CONNECT</button>
-      <button disabled>DISCONNECT</button>
+      <h4>Status : <label id="channelState">close</label></h4>
+      <button id="connect">CONNECT</button>
+      <button id="disconnect" disabled>DISCONNECT</button>
       <button disabled>SEND</button>
-      <h4>Status : Disconnected</h4>
     </div>
 
     <script src="/socket.io/socket.io.js"></script>
