@@ -8,7 +8,29 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <h1>Hello, My Cosy DataChannel :)</h1>
+    <div id="dropbox">
+      Click/Drop To Send Your Files
+    </div>
+
+    <div id="grid">
+      <ul id="fileList">
+        <li>List: your files</li>
+        <li>test.txt</li>
+        <li>test.jpg</li>
+        <li>test.mp4</li>
+      </ul>
+
+      <ul id="progressList">
+        <li>List: sent</li>
+        <li></li>
+      </ul>
+    </div>
+
+    <div>
+      <button>CONNECT</button>
+      <button>DISCONNECT</button>
+      <button>SEND</button>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./script.js"></script>

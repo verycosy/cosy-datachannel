@@ -1,9 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
+  font-size: 16px;
   background-color: #fdfcde;
   color: #353535;
+  width: 600px;
+  margin: 20px auto;
+}
+
+#dropbox {
+  border: 4px dashed gray;
+  padding: 40px 0px;
+  text-align: center;
+}
+
+#grid {
+  margin: 20px 0px;
+  width: 600px;
+  display: grid;
+  grid-template-columns: 300px 300px;
+}
+
+ul {
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+}
+
+li:first-child {
+  font-weight: 600;
+  border-left: none !important;
+  padding-left: 0px;
+}
+
+li {
+  padding: 2px 0px 2px 10px;
+  margin-bottom: 10px;
+}
+
+#fileList > li {
+  border-left: 4px solid #353535;
+}
+
+#progressList > li:not(:first-child) {
+  background-color: #f8ce5b;
+  height: 20px;
 }
 
 button {
   background-color: #f8ce5b;
   color: #353535;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  font-weight: 600;
 }
