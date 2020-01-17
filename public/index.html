@@ -11,17 +11,25 @@
     <label id="dropbox" for="files">Click/Drop To Send Your Files</label>
     <input type="file" id="files" name="files" multiple />
 
+    <div id="chatbox">
+      <ul>
+        <li class="to">Chat One</li>
+        <li class="from">Two</li>
+      </ul>
+      <input type="text" placeholder="DataChannel Closed" id="chat" disabled />
+    </div>
+
     <div id="grid">
       <div>
         <h3>📦 Sent</h3>
-        <ul id="sentList">
+        <ul id="sentList" class="fileList">
           <li>🙈 Nothing</li>
         </ul>
       </div>
 
       <div>
         <h3>📦 Received</h3>
-        <ul id="receivedList">
+        <ul id="receivedList" class="fileList">
           <li>🙈 Nothing</li>
         </ul>
       </div>

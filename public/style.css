@@ -36,7 +36,46 @@ ul {
   list-style: none;
 }
 
-li {
+#chatbox {
+  margin: 20px 0px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+}
+
+#chatbox ul {
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+#chatbox li {
+  border-radius: 14px;
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+}
+
+.to {
+  align-self: flex-start;
+  background-color: white;
+}
+
+.from {
+  align-self: flex-end;
+  background-color: #5d4224;
+  color: white;
+}
+
+#chat {
+  margin-top: auto;
+  width: 100%;
+  padding: 5px 10px;
+  border: none;
+  border-top: 1px solid #ddd;
+  outline: none;
+}
+
+.fileList > li {
   padding: 4px 0px 4px 10px;
   border-left: 4px solid #353535;
   margin-bottom: 10px;
