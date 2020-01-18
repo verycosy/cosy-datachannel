@@ -6,6 +6,8 @@ const dropbox = document.getElementById("dropbox");
 const fileList = document.getElementById("fileList");
 const connectBtn = document.getElementById("connect");
 const disconnectBtn = document.getElementById("disconnect");
+const chatList = document.getElementById("chatList");
+const chat = document.getElementById("chat");
 
 const channelStateLabel = document.getElementById("channelState");
 
@@ -47,21 +49,33 @@ function handleChannelState(evt) {
   if (state === "open") {
     connectBtn.disabled = true;
     disconnectBtn.disabled = false;
+    chat.disabled = false;
   } else {
     if (state === "close") disconnect();
     else {
       connectBtn.disabled = false;
       disconnectBtn.disabled = true;
+      chat.disabled = true;
     }
   }
+}
+
+function handleChannelMessage(evt) {
+  console.log(evt);
+  attachChat(evt.data, 1);
+}
+
+function addEventToChannel(channel) {
+  channel.addEventListener("open", handleChannelState);
+  channel.addEventListener("close", handleChannelState);
+  channel.addEventListener("message", handleChannelMessage);
 }
 
 async function connect() {
   if (!pc) makePeerConnection();
 
   channel = pc.createDataChannel("cosy-datachannel");
-  channel.addEventListener("open", handleChannelState);
-  channel.addEventListener("close", handleChannelState);
+  addEventToChannel(channel);
 
   try {
     const desc = await pc.createOffer();
@@ -83,6 +97,7 @@ function disconnect() {
 
   connectBtn.disabled = false;
   disconnectBtn.disabled = true;
+  chat.disabled = true;
 
   console.log("disconnected");
 }
@@ -96,9 +111,25 @@ function makePeerConnection() {
   pc.addEventListener("connectionstatechange", evt => console.log(evt));
 }
 
+function attachChat(text, type) {
+  const li = document.createElement("li");
+  li.textContent = text;
+  type === 0 ? (li.className = "from") : (li.className = "to");
+  chatList.appendChild(li);
+}
+
+function sendMessage(evt) {
+  if (evt.key === "Enter") {
+    channel.send(evt.target.value);
+    attachChat(evt.target.value, 0);
+    chat.value = "";
+  }
+}
+
 (function init() {
   makePeerConnection();
 
+  chat.addEventListener("keypress", sendMessage);
   connectBtn.addEventListener("click", connect);
   disconnectBtn.addEventListener("click", disconnect);
 
@@ -117,9 +148,7 @@ function makePeerConnection() {
       pc.setLocalDescription(answerSDP);
       pc.addEventListener("datachannel", evt => {
         channel = evt.channel;
-
-        channel.addEventListener("open", handleChannelState);
-        channel.addEventListener("close", handleChannelState);
+        addEventToChannel(channel);
       });
 
       socket.emit("answer", answerSDP);
