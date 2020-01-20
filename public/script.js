@@ -3,7 +3,7 @@
 const socket = io();
 
 const dropbox = document.getElementById("dropbox");
-const fileList = document.getElementById("fileList");
+const sentList = document.getElementById("sentList");
 const connectBtn = document.getElementById("connect");
 const disconnectBtn = document.getElementById("disconnect");
 const chatList = document.getElementById("chatList");
@@ -25,12 +25,26 @@ function handleFileSelect(evt) {
 }
 
 function addFilesToList(files) {
-  fileList.innerHTML = "";
+  sentList.innerHTML = "";
 
   for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
     const li = document.createElement("li");
-    li.textContent = files[i].name;
-    fileList.appendChild(li);
+    if (file.type.match("image/*")) {
+      const reader = new FileReader();
+
+      reader.onload = evt => {
+        const img = document.createElement("img");
+        img.src = evt.target.result;
+        li.append(img);
+        sentList.appendChild(li);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      li.textContent = file.name;
+      sentList.appendChild(li);
+    }
   }
 }
 
@@ -44,6 +58,7 @@ function handleChannelState(evt) {
   console.log(evt);
 
   const state = evt.type;
+  // or channel.readyState
   channelStateLabel.textContent = state;
 
   if (state === "open") {
@@ -114,7 +129,8 @@ function makePeerConnection() {
 function attachChat(text, type) {
   const li = document.createElement("li");
   li.textContent = text;
-  type === 0 ? (li.className = "from") : (li.className = "to");
+  //type === 0 ? (li.className = "from") : (li.className = "to");
+  li.className = type === 0 ? "from" : "to";
   chatList.appendChild(li);
 }
 
@@ -166,6 +182,10 @@ function sendMessage(evt) {
   });
 
   socket.on("icecandidate", candidate => {
-    if (pc) pc.addIceCandidate(new RTCIceCandidate(candidate));
+    if (pc) {
+      pc.addIceCandidate(new RTCIceCandidate(candidate))
+        .then(res => console.log("I have a Candidate !"))
+        .catch(err => console.error(err));
+    }
   });
 })();
