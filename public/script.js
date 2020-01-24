@@ -15,6 +15,9 @@ let pc = null,
   channel = null;
 
 const pcConfig = {};
+const MB = 1024 * 1024;
+const bodyColor = `white`;
+const progressColor = `#f8ce5b`;
 
 //FIXME: Directoy Not Supported Yet
 function handleFileSelect(evt) {
@@ -22,6 +25,33 @@ function handleFileSelect(evt) {
 
   const files = evt.target.files || evt.dataTransfer.files;
   addFilesToList(files);
+}
+
+function prettySize(bytes, separator = "", postFix = "") {
+  if (bytes) {
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB"];
+    const i = Math.min(
+      parseInt(Math.floor(Math.log(bytes) / Math.log(1024)), 10),
+      sizes.length - 1
+    );
+    return `${(bytes / 1024 ** i).toFixed(i ? 1 : 0)}${separator}${
+      sizes[i]
+    }${postFix}`;
+  }
+  return "n/a";
+}
+
+function makeProgressBar(li) {
+  return evt => {
+    console.log(evt);
+    if (evt.lengthComputable) {
+      const percentage = Math.round((evt.loaded / evt.total) * 100);
+      console.log(evt.loaded + " / " + evt.total);
+
+      li.style.backgroundImage = `linear-gradient(to right, ${progressColor} ${percentage}%, ${bodyColor} ${100 -
+        percentage}%)`;
+    }
+  };
 }
 
 function addFilesToList(files) {
@@ -41,8 +71,14 @@ function addFilesToList(files) {
         sentList.appendChild(li);
       };
       reader.readAsDataURL(file);
+
+      //const blob = file.slice(start,stop)
+      // case by case error handling, abort
     } else {
-      li.textContent = file.name;
+      const reader = new FileReader();
+      reader.onprogress = makeProgressBar(li);
+      reader.readAsDataURL(file);
+      li.textContent = `${file.name} + (${prettySize(file.size)})`;
       sentList.appendChild(li);
     }
   }
@@ -129,7 +165,6 @@ function makePeerConnection() {
 function attachChat(text, type) {
   const li = document.createElement("li");
   li.textContent = text;
-  //type === 0 ? (li.className = "from") : (li.className = "to");
   li.className = type === 0 ? "from" : "to";
   chatList.appendChild(li);
 }
