@@ -59,12 +59,12 @@ ul {
   border: 1px solid #ddd;
 }
 
-.to {
+.you {
   align-self: flex-start;
   background-color: white;
 }
 
-.from {
+.me {
   align-self: flex-end;
   background-color: #5d4224;
   color: white;
